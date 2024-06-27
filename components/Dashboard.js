@@ -1,4 +1,5 @@
 // components/Dashboard.js
+
 import React, { useState, useEffect } from 'react'
 import FilterBar from './FilterBar'
 import PriceDisplay from './PriceDisplay'
@@ -30,8 +31,8 @@ const Dashboard = () => {
           data.filter((item) => item.niveau === 'moyen').length,
           data.filter((item) => item.niveau === 'pro').length,
         ],
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(20, 20, 200, 0.2)',
+        borderColor: 'rgba(20, 20, 200, 1)',
         borderWidth: 1,
       },
     ],
@@ -48,8 +49,8 @@ const Dashboard = () => {
           data.filter((item) => item.saison === 'automne').length,
           data.filter((item) => item.saison === 'hiver').length,
         ],
-        backgroundColor: 'rgba(153, 102, 255, 0.2)',
-        borderColor: 'rgba(153, 102, 255, 1)',
+        backgroundColor: 'rgba(20, 200, 20, 0.2)',
+        borderColor: 'rgba(20, 200, 20, 1)',
         borderWidth: 1,
       },
     ],
@@ -65,11 +66,19 @@ const Dashboard = () => {
           data.filter((item) => item.age >= 24 && item.age <= 28).length,
           data.filter((item) => item.age > 28).length,
         ],
-        backgroundColor: 'rgba(255, 159, 64, 0.2)',
-        borderColor: 'rgba(255, 159, 64, 1)',
+        backgroundColor: 'rgba(200, 20, 20, 0.2)',
+        borderColor: 'rgba(200, 20, 20, 1)',
         borderWidth: 1,
       },
     ],
+  }
+
+  const handleSeasonClick = (seasonLabel) => {
+    setSeason(seasonLabel.toLowerCase())
+  }
+
+  const handleLevelClick = (levelLabel) => {
+    setLevel(levelLabel.toLowerCase())
   }
 
   return (
@@ -77,8 +86,8 @@ const Dashboard = () => {
       <FilterBar season={season} level={level} pass={pass} setSeason={setSeason} setLevel={setLevel} setPass={setPass} />
       <PriceDisplay price={price} />
       <div className={styles.barchartDiv}>
-        <BarChart data={quantityByLevel} title="Quantité par Niveau" />
-        <BarChart data={quantityBySeason} title="Quantité par Saison" />
+        <BarChart data={quantityByLevel} title="Quantité par Niveau" onBarClick={handleLevelClick} />
+        <BarChart data={quantityBySeason} title="Quantité par Saison" onBarClick={handleSeasonClick} />
         <BarChart data={quantityByAgeGroup} title="Quantité par Groupe d'Âge" />
       </div>
     </div>

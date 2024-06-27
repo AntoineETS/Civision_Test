@@ -15,7 +15,7 @@ import styles from '../styles/BarChart.module.css'
 // Enregistrez explicitement les composants nécessaires
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
-const BarChart = ({ data, title }) => {
+const BarChart = ({ data, title, onBarClick }) => {
   const options = {
     responsive: true,
     plugins: {
@@ -26,6 +26,12 @@ const BarChart = ({ data, title }) => {
         display: true,
         text: title,
       },
+    },
+    onClick: (event, elements) => {
+      if (elements.length > 0 && onBarClick) {
+        const clickedLabel = data.labels[elements[0].index]
+        onBarClick(clickedLabel)
+      }
     },
   }
 
