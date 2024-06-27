@@ -1,0 +1,11 @@
+.barchartDiv {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    min-height: 65vh;
+    align-items: center;
+  }
+  
+  .barchartDiv > * {
+    flex: 1;
+  }

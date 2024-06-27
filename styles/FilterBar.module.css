@@ -1,0 +1,15 @@
+.filterBar {
+    display: flex;
+    justify-content: space-around;
+    margin: 50px 0;
+    gap: 100px; /* Espace entre les sélecteurs */
+    padding: 10px; /* Espace intérieur du conteneur */
+    font-size: 1.2em; /* Taille de la police */
+}
+
+.filterBar select {
+    flex: 1; /* Permet aux sélecteurs de s'étendre uniformément */
+    padding: 5px; /* Espace intérieur des sélecteurs */
+    font-size: 1em; /* Taille de la police des sélecteurs */
+}
+  
