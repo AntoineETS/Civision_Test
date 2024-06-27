@@ -7,9 +7,9 @@ import data from '../data/database.json'
 import styles from '../styles/Dashboard.module.css'
 
 const Dashboard = () => {
-  const [season, setSeason] = useState('printemps')
-  const [level, setLevel] = useState('débutant')
-  const [pass, setPass] = useState('simple')
+  const [season, setSeason] = useState('')
+  const [level, setLevel] = useState('')
+  const [pass, setPass] = useState('')
   const [price, setPrice] = useState(0)
 
   useEffect(() => {
