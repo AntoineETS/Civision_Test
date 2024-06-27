@@ -22,6 +22,7 @@ const FilterBar = ({ season, level, pass, setSeason, setLevel, setPass }) => {
         <option>Veuillez choisir une passe</option>
         <option value="simple">Simple</option>
         <option value="double">Double</option>
+        <option value="illimité">Illimité</option>
       </select>
     </div>
   )
