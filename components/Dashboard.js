@@ -1,39 +1,39 @@
-// components/Dashboard.js
-
 import React, { useState, useEffect } from 'react';
-import FilterBar from './FilterBar';
-import PriceDisplay from './PriceDisplay';
+import Dropdown from './Dropdown';
+import PrixMoyen from './PrixMoyen';
 import BarChart from './BarChart';
 import data from '../data/database.json';
 import styles from '../styles/Dashboard.module.css';
 
+// Composant qui contient tous les composant de la page index.js
 const Dashboard = () => {
-  const [season, setSeason] = useState('');
-  const [level, setLevel] = useState('');
-  const [pass, setPass] = useState('');
-  const [price, setPrice] = useState(0);
-  const [filteredData, setFilteredData] = useState([]);
+  const [saison, setSaison] = useState('');
+  const [niveau, setNiveau] = useState('');
+  const [passe, setPasse] = useState('');
+  const [prix, setPrix] = useState(0);
+  const [donnees, setDonnees] = useState([]);
 
   useEffect(() => {
-    const filteredPrices = data.filter(
-      (item) => item.saison === season && item.niveau === level && item.passe === pass
+    const prixFiltre = data.filter(
+      (item) => item.saison === saison && item.niveau === niveau && item.passe === passe
     );
-    const averagePrice = filteredPrices.reduce((acc, item) => acc + item.prix, 0) / (filteredPrices.length || 1);
-    setPrice(averagePrice);
-    setFilteredData(filteredPrices);
-  }, [season, level, pass]);
+    const prixMoyen = prixFiltre.reduce((acc, item) => acc + item.prix, 0) / (prixFiltre.length || 1);
+    setPrix(prixMoyen);
+    setDonnees(prixFiltre);
+  }, [saison, niveau, passe]);
 
-  const calculateQuantityByLevel = () => {
-    const noviceCount = filteredData.filter((item) => item.niveau === 'novice').length;
-    const moyenCount = filteredData.filter((item) => item.niveau === 'moyen').length;
-    const proCount = filteredData.filter((item) => item.niveau === 'pro').length;
+  // Calcule la quantité de chacun des niveaux
+  const calculQuantiteNiveau = () => {
+    const nbNovice = donnees.filter((item) => item.niveau === 'novice').length;
+    const nbMoyen = donnees.filter((item) => item.niveau === 'moyen').length;
+    const nbPro = donnees.filter((item) => item.niveau === 'pro').length;
 
     return {
       labels: ['Novice', 'Moyen', 'Pro'],
       datasets: [
         {
           label: 'Quantité',
-          data: [noviceCount, moyenCount, proCount],
+          data: [nbNovice, nbMoyen, nbPro],
           backgroundColor: 'rgba(0, 0, 200, 0.2)',
           borderColor: 'rgba(0, 0, 200, 1)',
           borderWidth: 1,
@@ -42,18 +42,19 @@ const Dashboard = () => {
     };
   };
 
-  const calculateQuantityBySeason = () => {
-    const printempsCount = filteredData.filter((item) => item.saison === 'printemps').length;
-    const eteCount = filteredData.filter((item) => item.saison === 'été').length;
-    const automneCount = filteredData.filter((item) => item.saison === 'automne').length;
-    const hiverCount = filteredData.filter((item) => item.saison === 'hiver').length;
+  // Calcule la quantité de chacune des saisons
+  const calculQuantiteSaison = () => {
+    const nbPrintemps = donnees.filter((item) => item.saison === 'printemps').length;
+    const nbEte = donnees.filter((item) => item.saison === 'été').length;
+    const nbAutomne = donnees.filter((item) => item.saison === 'automne').length;
+    const nbHiver = donnees.filter((item) => item.saison === 'hiver').length;
 
     return {
       labels: ['Printemps', 'Été', 'Automne', 'Hiver'],
       datasets: [
         {
           label: 'Quantité',
-          data: [printempsCount, eteCount, automneCount, hiverCount],
+          data: [nbPrintemps, nbEte, nbAutomne, nbHiver],
           backgroundColor: 'rgba(0, 200, 0, 0.2)',
           borderColor: 'rgba(0, 200, 0, 1)',
           borderWidth: 1,
@@ -62,17 +63,18 @@ const Dashboard = () => {
     };
   };
 
-  const calculateQuantityByAgeGroup = () => {
-    const lessThan24Count = filteredData.filter((item) => item.age < 24).length;
-    const age24to28Count = filteredData.filter((item) => item.age >= 24 && item.age <= 28).length;
-    const above28Count = filteredData.filter((item) => item.age > 28).length;
+  // Calcule la quantité de chacun des groupes d'âge
+  const calculQuantiteAge = () => {
+    const moinsDe24 = donnees.filter((item) => item.age < 24).length;
+    const entre24Et28 = donnees.filter((item) => item.age >= 24 && item.age <= 28).length;
+    const plusDe28 = donnees.filter((item) => item.age > 28).length;
 
     return {
       labels: ['<24', '24-28', '29+'],
       datasets: [
         {
           label: 'Quantité',
-          data: [lessThan24Count, age24to28Count, above28Count],
+          data: [moinsDe24, entre24Et28, plusDe28],
           backgroundColor: 'rgba(200, 0, 0, 0.2)',
           borderColor: 'rgba(200, 0, 0, 1)',
           borderWidth: 1,
@@ -81,42 +83,42 @@ const Dashboard = () => {
     };
   };
 
-  const handleSeasonClick = (seasonLabel) => {
-    console.log('Saison cliquée:', seasonLabel);
-    setSeason(seasonLabel.toLowerCase());
+  // Met à jour la saison lorsqu'une colonne du bar chart est appuyé
+  const handleSeasonClick = (colonneCliquee) => {
+    setSaison(colonneCliquee.toLowerCase());
   };
 
-  const handleLevelClick = (levelLabel) => {
-    console.log('Niveau cliqué:', levelLabel);
-    setLevel(levelLabel.toLowerCase());
+  // Met à jour le niveau lorsqu'une colonne du bar chart est appuyé
+  const handleLevelClick = (colonneCliquee) => {
+    setNiveau(colonneCliquee.toLowerCase());
   };
 
   return (
     <div>
-      <FilterBar
-        season={season}
-        level={level}
-        pass={pass}
-        setSeason={setSeason}
-        setLevel={setLevel}
-        setPass={setPass}
+      <Dropdown
+        saison={saison}
+        niveau={niveau}
+        passe={passe}
+        setSaison={setSaison}
+        setNiveau={setNiveau}
+        setPasse={setPasse}
       />
-      <PriceDisplay price={price} />
+      <PrixMoyen prix={prix} />
       <div className={styles.barchartDiv}>
         <BarChart
-          data={calculateQuantityByLevel()}
-          title="Quantité par Niveau"
+          donnees={calculQuantiteNiveau()}
+          titre="Quantité par Niveau"
           onBarClick={handleLevelClick}
         />
         <BarChart
-          data={calculateQuantityBySeason()}
-          title="Quantité par Saison"
+          donnees={calculQuantiteSaison()}
+          titre="Quantité par Saison"
           onBarClick={handleSeasonClick}
         />
         <BarChart
-          data={calculateQuantityByAgeGroup()}
-          title="Quantité par Groupe d'Âge"
-          onBarClick={(ageGroupLabel) => console.log('Groupe d\'âge cliqué:', ageGroupLabel)}
+          donnees={calculQuantiteAge()}
+          titre="Quantité par Groupe d'Âge"
+          onBarClick={(groupeAgeClique) => console.log('Groupe d\'âge cliqué:', groupeAgeClique)}
         />
       </div>
     </div>

@@ -1,24 +1,24 @@
-// components/FilterBar.js
 import React from 'react'
 import styles from '../styles/FilterBar.module.css'
 
-const FilterBar = ({ season, level, pass, setSeason, setLevel, setPass }) => {
+// Composant qui crée les 3 dropdowns
+const Dropdown = ({ saison, niveau, passe, setSaison, setNiveau, setPasse }) => {
   return (
     <div className={styles.filterBar}>
-      <select value={season} onChange={(e) => setSeason(e.target.value)}>
+      <select value={saison} onChange={(e) => setSaison(e.target.value)}>
         <option value="">Veuillez choisir une saison</option>
         <option value="printemps">Printemps</option>
         <option value="été">Été</option>
         <option value="automne">Automne</option>
         <option value="hiver">Hiver</option>
       </select>
-      <select value={level} onChange={(e) => setLevel(e.target.value)}>
+      <select value={niveau} onChange={(e) => setNiveau(e.target.value)}>
         <option value="">Veuillez choisir un niveau</option>
         <option value="novice">Novice</option>
         <option value="moyen">Moyen</option>
         <option value="pro">Pro</option>
       </select>
-      <select value={pass} onChange={(e) => setPass(e.target.value)}>
+      <select value={passe} onChange={(e) => setPasse(e.target.value)}>
         <option value="">Veuillez choisir une passe</option>
         <option value="simple">Simple</option>
         <option value="double">Double</option>
@@ -28,4 +28,4 @@ const FilterBar = ({ season, level, pass, setSeason, setLevel, setPass }) => {
   );
 };
 
-export default FilterBar
+export default Dropdown

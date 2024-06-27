@@ -1,4 +1,3 @@
-// components/BarChart.js
 import React, { useRef } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -12,10 +11,10 @@ import {
 } from 'chart.js';
 import styles from '../styles/BarChart.module.css';
 
-// Enregistrez explicitement les composants nécessaires
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const BarChart = ({ data, title, onBarClick }) => {
+// Composant qui crée un bar chart
+const BarChart = ({ donnees, titre, onBarClick }) => {
   const chartRef = useRef(null);
 
   const options = {
@@ -26,16 +25,17 @@ const BarChart = ({ data, title, onBarClick }) => {
       },
       title: {
         display: true,
-        text: title,
+        text: titre,
       },
     },
+    // Gère le fonctionnement lors d'un clique sur une colonne en pparticulier
     onClick: (event, elements) => {
       const chartInstance = chartRef.current;
       if (elements.length > 0) {
-        const clickedElement = elements[0];
-        const clickedIndex = clickedElement.index;
-        const label = data.labels[clickedIndex];
-        onBarClick(label);
+        const elementClique = elements[0];
+        const indexClique = elementClique.index;
+        const colonneCliquee = donnees.labels[indexClique];
+        onBarClick(colonneCliquee);
       } else {
         const chartArea = chartInstance.chartArea;
         if (
@@ -45,9 +45,9 @@ const BarChart = ({ data, title, onBarClick }) => {
           event.y <= chartArea.bottom
         ) {
           const xScale = chartInstance.scales.x;
-          const clickedIndex = xScale.getValueForPixel(event.x);
-          const label = data.labels[Math.round(clickedIndex)];
-          onBarClick(label);
+          const indexClique = xScale.getValueForPixel(event.x);
+          const colonneCliquee = donnees.labels[Math.round(indexClique)];
+          onBarClick(colonneCliquee);
         }
       }
     },
@@ -55,7 +55,7 @@ const BarChart = ({ data, title, onBarClick }) => {
 
   return (
     <div className={styles.barChart}>
-      <Bar ref={chartRef} data={data} options={options} />
+      <Bar ref={chartRef} data={donnees} options={options} />
     </div>
   );
 };
