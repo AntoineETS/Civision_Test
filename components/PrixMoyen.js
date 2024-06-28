@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '../styles/PriceDisplay.module.css'
+import styles from '../styles/PrixMoyen.module.css'
 
 // Composant qui crée le prix moyen
 const PrixMoyen = ({ prix }) => {
