@@ -5,6 +5,7 @@ import BarChart from './BarChart';
 import data from '../data/database.json';
 import styles from '../styles/Dashboard.module.css';
 
+
 // Composant qui contient tous les composant de la page index.js
 const Dashboard = () => {
   const [saison, setSaison] = useState('');
